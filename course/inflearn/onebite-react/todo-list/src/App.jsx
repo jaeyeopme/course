@@ -1,4 +1,4 @@
-import { useReducer, useRef } from 'react'
+import { useCallback, useReducer, useRef } from 'react'
 import './App.css'
 import Editor from './components/Editor'
 import Header from './components/Header'
@@ -44,18 +44,22 @@ function App() {
   const [todos, dispatch] = useReducer(reducer, mockData)
   const idRef = useRef(3)
 
-  const onCreate = (content) =>
-    dispatch({
-      type: 'CREATE',
-      data: {
-        id: idRef.current++,
-        isDone: false,
-        content: content,
-        date: new Date().getTime(),
-      },
-    })
-  const onUpdate = (id) => dispatch({ type: 'UPDATE', id })
-  const onDelete = (id) => dispatch({ type: 'DELETE', id })
+  const onCreate = useCallback(
+    (content) =>
+      dispatch({
+        type: 'CREATE',
+        data: {
+          id: idRef.current++,
+          isDone: false,
+          content: content,
+          date: new Date().getTime(),
+        },
+      }),
+    []
+  )
+
+  const onUpdate = useCallback((id) => dispatch({ type: 'UPDATE', id }), [])
+  const onDelete = useCallback((id) => dispatch({ type: 'DELETE', id }), [])
 
   return (
     <div className='App'>
