@@ -16,10 +16,11 @@ const TodoItem = ({ id, isDone, content, date, onUpdate, onDelete }) => {
 // React.memo 는 컴포넌트의 props 가 변경되지 않는 한 리렌더링을 방지함.
 // 함수들은 App 컴포넌트가 재생성되면 주소 값이 바뀌어 변경된 것으로 인식하기 때문에 props 변경감지를 위한 콜백함수에서 명시적으로 제외.
 export default memo(
-  TodoItem,
-  (prevProps, nextProps) =>
-    prevProps.id === nextProps.id &&
-    prevProps.isDone === nextProps.isDone &&
-    prevProps.content === nextProps.content &&
-    prevProps.date === nextProps.date
+  TodoItem
+  // useCallback 으로 functions 를 캐싱하여 변경감지를 위한 콜백함수를 제거.
+  // (prevProps, nextProps) =>
+  //   prevProps.id === nextProps.id &&
+  //   prevProps.isDone === nextProps.isDone &&
+  //   prevProps.content === nextProps.content &&
+  //   prevProps.date === nextProps.date
 )
