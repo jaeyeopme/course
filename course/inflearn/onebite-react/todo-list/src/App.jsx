@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useRef } from 'react'
+import { createContext, useCallback, useMemo, useReducer, useRef } from 'react'
 import './App.css'
 import Editor from './components/Editor'
 import Header from './components/Header'
@@ -40,6 +40,9 @@ function reducer(todos, action) {
   }
 }
 
+export const TodoStateContext = createContext()
+export const TodoDispatchContext = createContext()
+
 function App() {
   const [todos, dispatch] = useReducer(reducer, mockData)
   const idRef = useRef(3)
@@ -57,15 +60,27 @@ function App() {
       }),
     []
   )
-
   const onUpdate = useCallback((id) => dispatch({ type: 'UPDATE', id }), [])
   const onDelete = useCallback((id) => dispatch({ type: 'DELETE', id }), [])
+
+  const memoizedDispatch = useMemo(
+    () => ({
+      onCreate,
+      onUpdate,
+      onDelete,
+    }),
+    [onCreate, onUpdate, onDelete]
+  )
 
   return (
     <div className='App'>
       <Header />
-      <Editor onCreate={onCreate} />
-      <List todos={todos} onUpdate={onUpdate} onDelete={onDelete} />
+      <TodoDispatchContext.Provider value={memoizedDispatch}>
+        <Editor />
+        <TodoStateContext.Provider value={todos}>
+          <List />
+        </TodoStateContext.Provider>
+      </TodoDispatchContext.Provider>
     </div>
   )
 }
