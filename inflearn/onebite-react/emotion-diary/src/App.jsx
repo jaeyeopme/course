@@ -1,8 +1,6 @@
 import { createContext, useReducer, useRef } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
-import Button from './components/Button'
-import Header from './components/Header'
 import Diary from './pages/Diary'
 import Edit from './pages/Edit'
 import Home from './pages/Home'
@@ -87,11 +85,6 @@ function App() {
 
   return (
     <>
-      <Header
-        title={'Header'}
-        left_child={<Button text={'left'} />}
-        right_child={<Button text={'right'} />}
-      />
       <DiaryStateContext.Provider value={data}>
         <DiaryDispatchContext.Provider value={{ onCreate, onUpdate, onDelete }}>
           <Routes>
