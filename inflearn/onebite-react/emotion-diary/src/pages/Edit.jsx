@@ -1,37 +1,21 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { DiaryDispatchContext, DiaryStateContext } from '../App'
+import { DiaryDispatchContext } from '../App'
 import Button from '../components/Button'
 import Editor from '../components/Editor'
 import Header from '../components/Header'
+import useDiary from '../components/useDiary'
 
 const Edit = () => {
-  const isDeletedRef = useRef(false)
-  
   const params = useParams()
   const navigate = useNavigate()
-  
-  const data = useContext(DiaryStateContext)
   const { onUpdate, onDelete } = useContext(DiaryDispatchContext)
-  const [diary, setDiary] = useState()
-
-  useEffect(() => {
-    if (isDeletedRef.current) return
-    const diary = data.find((it) => String(it.id) === String(params.id))
-    if (!diary) {
-      window.alert('일기가 존재하지 않습니다.')
-      navigate('/', { replace: true })
-      return
-    }
-
-    setDiary(diary)
-  }, [data, params.id, navigate])
+  const diary = useDiary(params.id)
 
   const onClickDelete = () => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
       onDelete(params.id)
       navigate('/', { replace: true })
-      isDeletedRef.current = true
     }
   }
 
