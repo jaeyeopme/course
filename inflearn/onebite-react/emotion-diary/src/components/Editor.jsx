@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { emotionList } from '../util/constants'
+import { getDate } from '../util/get-date'
 import Button from './Button'
 import './Editor.css'
 import EmotionItem from './EmotionItem'
@@ -35,7 +36,7 @@ const Editor = ({ initData, onSubmit }) => {
           name={'createdDate'}
           onChange={onChangeInput}
           type='date'
-          value={input.createdDate.toISOString().split('T')[0]}
+          value={getDate(input.createdDate)}
         />
       </section>
       <section className='emotion_section'>
