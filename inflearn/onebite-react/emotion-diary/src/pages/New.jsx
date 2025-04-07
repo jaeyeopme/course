@@ -8,6 +8,11 @@ import Header from '../components/Header'
 const New = () => {
   const { onCreate } = useContext(DiaryDispatchContext)
   const navigate = useNavigate()
+  
+  const onSubmit = (input) => {
+    onCreate(input)
+    navigate('/', { replace: true })
+  }
 
   return (
     <div>
@@ -15,7 +20,7 @@ const New = () => {
         title={'새 일기 쓰기'}
         left_child={<Button onClick={() => navigate(-1)} text={'뒤로가기'} />}
       />
-      <Editor onSubmit={onCreate} />
+      <Editor onSubmit={onSubmit} />
     </div>
   )
 }
