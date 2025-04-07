@@ -6,17 +6,15 @@ import './DiaryList.css'
 
 const getSortedData = (data, sortType) => {
   return data.toSorted((a, b) => {
-    if (sortType === 'oldest') {
-      return a.createdDate - b.createdDate
-    }
-    return b.createdDate - a.createdDate
+    if (sortType === 'oldest')
+      return new Date(a.createdDate) - new Date(b.createdDate)
+    return new Date(b.createdDate) - new Date(a.createdDate)
   })
 }
 
 const DiaryList = ({ data }) => {
   const navigate = useNavigate()
   const [sortType, setSortType] = useState('latest')
-
   const onChangeSortType = (e) => setSortType(e.target.value)
 
   return (

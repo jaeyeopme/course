@@ -10,16 +10,13 @@ const Diary = () => {
   const params = useParams()
   const diary = useDiary(params.id)
 
-  if (!diary) {
-    return <div>로딩중입니다...</div>
-  }
-
+  if (!diary) return <div>로딩중입니다...</div>
   const { createdDate, emotionId, content } = diary
 
   return (
     <div>
       <Header
-        title={`${getDate(createdDate)} 기록`}
+        title={`${getDate(new Date(createdDate))} 기록`}
         left_child={<Button onClick={() => navigate(-1)} text={'뒤로가기'} />}
         right_child={
           <Button

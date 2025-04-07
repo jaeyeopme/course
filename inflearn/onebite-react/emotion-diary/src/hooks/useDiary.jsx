@@ -15,7 +15,7 @@ const useDiary = (id) => {
       return
     }
     setDiary(diary)
-  }, [data, id, navigate])
+  }, [id, navigate])
 
   return diary
 }

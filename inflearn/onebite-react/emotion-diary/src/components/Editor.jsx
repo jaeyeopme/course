@@ -23,9 +23,8 @@ const Editor = ({ initData, onSubmit }) => {
   }
 
   useEffect(() => {
-    if (initData) {
-      setInput({ ...initData })
-    }
+    if (initData)
+      setInput({ ...initData, createdDate: new Date(initData.createdDate) })
   }, [initData])
 
   return (
@@ -36,7 +35,7 @@ const Editor = ({ initData, onSubmit }) => {
           name={'createdDate'}
           onChange={onChangeInput}
           type='date'
-          value={getDate(input.createdDate)}
+          value={getDate(new Date(input.createdDate))}
         />
       </section>
       <section className='emotion_section'>
@@ -71,9 +70,7 @@ const Editor = ({ initData, onSubmit }) => {
         <Button
           text={'작성완료'}
           type={'POSITIVE'}
-          onClick={() => {
-            onSubmit(input)
-          }}
+          onClick={() => onSubmit(input)}
         />
       </section>
     </div>
