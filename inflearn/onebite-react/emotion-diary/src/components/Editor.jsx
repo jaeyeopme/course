@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from './Button'
 import './Editor.css'
@@ -27,7 +27,7 @@ const emotionList = [
   },
 ]
 
-const Editor = ({ onSubmit }) => {
+const Editor = ({ initData, onSubmit }) => {
   const navigate = useNavigate()
   const [input, setInput] = useState({
     createdDate: new Date(),
@@ -42,6 +42,12 @@ const Editor = ({ onSubmit }) => {
     }
     setInput({ ...input, [e.target.name]: e.target.value })
   }
+
+  useEffect(() => {
+    if (initData) {
+      setInput({ ...initData })
+    }
+  }, [initData])
 
   return (
     <div className='Editor'>
@@ -78,6 +84,7 @@ const Editor = ({ onSubmit }) => {
           onChange={onChangeInput}
           name={'content'}
           placeholder='오늘은 어땠나요?'
+          value={input.content}
         ></textarea>
       </section>
       <section className='button_section'>
@@ -87,7 +94,6 @@ const Editor = ({ onSubmit }) => {
           type={'POSITIVE'}
           onClick={() => {
             onSubmit(input)
-            navigate('/', { replace: true })
           }}
         />
       </section>
