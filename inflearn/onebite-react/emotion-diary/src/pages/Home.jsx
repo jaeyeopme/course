@@ -5,18 +5,16 @@ import DiaryList from '../components/DiaryList'
 import Header from '../components/Header'
 
 const getMonthlyData = (data, pivotDate) => {
-  return data.filter((it) => {
-    return (
-      it.createdDate.getFullYear() === pivotDate.getFullYear() &&
-      it.createdDate.getMonth() === pivotDate.getMonth()
-    )
-  })
+  return data.filter(
+    (it) =>
+      new Date(it.createdDate).getFullYear() === pivotDate.getFullYear() &&
+      new Date(it.createdDate).getMonth() === pivotDate.getMonth()
+  )
 }
 
 const Home = () => {
   const data = useContext(DiaryStateContext)
   const [pivotDate, setPivotDate] = useState(new Date())
-
   const monthlyData = getMonthlyData(data, pivotDate)
 
   const previousMonth = () => {

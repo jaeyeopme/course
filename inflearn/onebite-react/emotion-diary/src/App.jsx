@@ -1,4 +1,4 @@
-import { createContext, useReducer, useRef } from 'react'
+import { createContext, useEffect, useReducer, useRef, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import Diary from './pages/Diary'
@@ -7,50 +7,54 @@ import Home from './pages/Home'
 import New from './pages/New'
 import NotFound from './pages/NotFound'
 
-const mockData = [
-  {
-    id: 3,
-    createdDate: new Date('2025-04-03'),
-    emotionId: 1,
-    content: '3번 일기',
-  },
-  {
-    id: 2,
-    createdDate: new Date('2025-04-02'),
-    emotionId: 1,
-    content: '2번 일기',
-  },
-
-  {
-    id: 1,
-    createdDate: new Date('2025-04-01'),
-    emotionId: 1,
-    content: '1번 일기',
-  },
-]
-
 function reducer(state, action) {
+  let nextState
+
   switch (action.type) {
+    case 'INIT':
+      return action.data
     case 'CREATE':
-      return [action.data, ...state]
+      nextState = [action.data, ...state]
+      break
     case 'UPDATE':
-      return state.map((it) =>
-        // PUT
+      nextState = state.map((it) =>
         String(it.id) === String(action.data.id) ? action.data : it
       )
+      break
     case 'DELETE':
-      return state.filter((it) => String(it.id) !== String(action.id))
-    default:
-      return state
+      nextState = state.filter((it) => String(it.id) !== String(action.id))
+      break
   }
+
+  localStorage.setItem('diary', JSON.stringify(nextState))
+  return nextState
 }
 
 export const DiaryStateContext = createContext()
 export const DiaryDispatchContext = createContext()
 
 function App() {
-  const [data, dispatch] = useReducer(reducer, mockData)
-  const idRef = useRef(4)
+  const [isLoading, setIsLoading] = useState(true)
+  const [data, dispatch] = useReducer(reducer, [])
+  const idRef = useRef(0)
+
+  useEffect(() => {
+    const localData = localStorage.getItem('diary')
+
+    if (!localData) {
+      setIsLoading(false)
+      return
+    }
+    const parseData = JSON.parse(localData)
+    if (!Array.isArray(parseData) || parseData.length === 0) {
+      setIsLoading(false)
+      return
+    }
+
+    if (localData) dispatch({ type: 'INIT', data: parseData })
+    idRef.current = Math.max(...parseData.map((it) => it.id)) + 1
+    setIsLoading(false)
+  }, [])
 
   const onCreate = ({ createdDate, emotionId, content }) => {
     dispatch({
@@ -81,6 +85,10 @@ function App() {
       type: 'DELETE',
       id,
     })
+  }
+
+  if (isLoading) {
+    return <div className='App'>로딩중입니다...</div>
   }
 
   return (

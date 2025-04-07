@@ -16,7 +16,7 @@ const DiaryItem = ({ id, createdDate, emotionId, content }) => {
       </div>
       <div onClick={() => navigate(`/diary/${id}`)} className='info_section'>
         <div className='created_date'>
-          {createdDate.toLocaleDateString('ko')}
+          {new Date(createdDate).toLocaleDateString('ko')}
         </div>
         <div className='content'>{content}</div>
       </div>
