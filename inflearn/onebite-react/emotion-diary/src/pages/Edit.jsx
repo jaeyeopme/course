@@ -4,7 +4,7 @@ import { DiaryDispatchContext } from '../App'
 import Button from '../components/Button'
 import Editor from '../components/Editor'
 import Header from '../components/Header'
-import useDiary from '../components/useDiary'
+import useDiary from '../hooks/useDiary'
 
 const Edit = () => {
   const params = useParams()
