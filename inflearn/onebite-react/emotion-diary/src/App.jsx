@@ -64,7 +64,7 @@ function App() {
     })
   }
 
-  const onUpdate = (id, createdDate, emotionId, content) => {
+  const onUpdate = ({ id, createdDate, emotionId, content }) => {
     dispatch({
       type: 'UPDATE',
       data: {
