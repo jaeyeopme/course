@@ -1,3 +1,4 @@
+import Button from './Button'
 import './Editor.css'
 import EmotionItem from './EmotionItem'
 
@@ -49,7 +50,10 @@ const Editor = () => {
         <h4>오늘의 일기</h4>
         <textarea placeholder='오늘은 어땠나요?'></textarea>
       </section>
-      <section className='button_section'></section>
+      <section className='button_section'>
+        <Button text={'취소하기'} />
+        <Button text={'작성완료'} type={'POSITIVE'} />
+      </section>
     </div>
   )
 }
