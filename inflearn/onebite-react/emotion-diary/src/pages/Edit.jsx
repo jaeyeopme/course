@@ -5,10 +5,13 @@ import Button from '../components/Button'
 import Editor from '../components/Editor'
 import Header from '../components/Header'
 import useDiary from '../hooks/useDiary'
+import usePageTitle from '../hooks/usePageTitle'
 
 const Edit = () => {
   const params = useParams()
   const navigate = useNavigate()
+  usePageTitle(`${params.id}번 일기 수정`)
+
   const { onUpdate, onDelete } = useContext(DiaryDispatchContext)
   const diary = useDiary(params.id)
 

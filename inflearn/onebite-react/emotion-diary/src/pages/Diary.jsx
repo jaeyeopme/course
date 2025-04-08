@@ -3,11 +3,14 @@ import Button from '../components/Button'
 import Header from '../components/Header'
 import Viewer from '../components/Viewer'
 import useDiary from '../hooks/useDiary'
+import usePageTitle from '../hooks/usePageTitle'
 import { getDate } from '../util/get-date'
 
 const Diary = () => {
   const navigate = useNavigate()
   const params = useParams()
+   usePageTitle(`${params.id}번 일기`)
+
   const diary = useDiary(params.id)
 
   if (!diary) return <div>로딩중입니다...</div>
