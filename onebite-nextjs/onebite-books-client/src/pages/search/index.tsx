@@ -15,12 +15,12 @@ import { useRouter } from "next/router";
  * Navigating
  *
  * 1. Link 컴포넌트를 사용한 클라이언트 사이드 네비게이션
- *    - Link 컴포넌트를 사용하여 페이지 간 이동
- *    - href 속성에 쿼리 파라미터가 포함된 URL을 지정
+ *    - Link 컴포넌트를 사용하여 페이지를 이동
+ *    - href 속성에 지정된 URL로 페이지를 이동
  *    - 예시: <Link href="/search?query=nextjs">
  *
  * 2. router.push()를 사용한 프로그래매틱 네비게이션
- *    - useRouter 훅의 push 메서드를 사용하여 JavaScript로 페이지 이동
+ *    - useRouter 훅의 push 메서드로 페이지를 이동
  *    - 버튼 클릭 등의 이벤트 핸들러에서 사용
  *    - 예시: router.push("/search?query=world")
  */
