@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import style from "./index.module.css";
 
 /**
  * Query Parameter
@@ -42,11 +43,15 @@ export default function Page() {
 	return (
 		<>
 			<h1>Hello, {query}</h1>
-			<Link prefetch={false} href="/search?query=nextjs">
+			<Link
+				className={style.nextLink}
+				prefetch={false}
+				href="/search?query=nextjs"
+			>
 				nextjs link
 			</Link>
 			&nbsp;|&nbsp;
-			<button type="button" onClick={handleClick}>
+			<button className={style.worldButton} type="button" onClick={handleClick}>
 				world button
 			</button>
 		</>
