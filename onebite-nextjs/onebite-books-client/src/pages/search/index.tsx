@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { type ReactNode, useEffect } from "react";
+import SearchableLayout from "@/components/searchable-layout";
 import style from "./index.module.css";
 
 /**
@@ -57,3 +58,7 @@ export default function Page() {
 		</>
 	);
 }
+
+Page.getLayout = (page: ReactNode) => {
+	return <SearchableLayout>{page}</SearchableLayout>;
+};
