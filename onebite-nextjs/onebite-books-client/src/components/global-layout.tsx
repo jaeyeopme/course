@@ -1,4 +1,6 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
+import style from "./global-layout.module.css";
 
 interface Props {
 	children: ReactNode;
@@ -6,10 +8,14 @@ interface Props {
 
 export default function GlobalLayout({ children }: Props) {
 	return (
-		<>
-			<header>HEADER</header>
-			<main>{children}</main>
-			<footer>FOOTER</footer>
-		</>
+		<div className={style.container}>
+			<header className={style.header}>
+				<Link href="/">📚 ONEBITE BOOKS</Link>
+			</header>
+			<main className={style.main}>{children}</main>
+			<footer className={style.footer}>
+				@2025 ONEBITE BOOKS. All rights reserved.
+			</footer>
+		</div>
 	);
 }
