@@ -1,9 +1,11 @@
+import type { ReactNode } from "react";
 import BookItem from "@/components/book-item";
+import SearchableLayout from "@/components/searchable-layout";
 import books from "@/mock/books.json";
 import type { BookData } from "@/types";
 import style from "./index.module.css";
 
-export default function Home() {
+export default function Page() {
 	return (
 		<div className={style.container}>
 			<section>
@@ -21,3 +23,7 @@ export default function Home() {
 		</div>
 	);
 }
+
+Page.getLayout = (page: ReactNode) => {
+	return <SearchableLayout>{page}</SearchableLayout>;
+};
