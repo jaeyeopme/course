@@ -1,11 +1,27 @@
-import mock from "@/mock/books.json";
-import { BookData } from "@/types";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import style from "./[id].module.css";
+import fetchBook from "@/lib/fetch-book";
 
-export default function Page() {
-	const { title, subTitle, author, publisher, description, coverImgUrl } = (
-		mock as BookData[]
-	)[0];
+export const getServerSideProps = async ({
+	params,
+}: GetServerSidePropsContext) => {
+	const book = await fetchBook(Number(params!.id));
+
+	return {
+		props: {
+			book,
+		},
+	};
+};
+
+export default function Page({
+	book,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	if (!book) {
+		return <div>책 정보를 불러올 수 없습니다.</div>;
+	}
+
+	const { title, subTitle, author, publisher, description, coverImgUrl } = book;
 
 	return (
 		<div className={style.container}>
