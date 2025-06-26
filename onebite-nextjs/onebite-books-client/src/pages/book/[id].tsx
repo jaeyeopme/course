@@ -1,11 +1,18 @@
-import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import type { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import style from "./[id].module.css";
 import fetchBook from "@/lib/fetch-book";
+import { useRouter } from "next/router";
 
-export const getServerSideProps = async ({
+export const getStaticProps = async ({
 	params,
-}: GetServerSidePropsContext) => {
+}: GetStaticPropsContext) => {
 	const book = await fetchBook(Number(params!.id));
+
+	if (!book) {
+	  return {
+      notFound: true,
+    };
+	}
 
 	return {
 		props: {
@@ -14,12 +21,22 @@ export const getServerSideProps = async ({
 	};
 };
 
+export const getStaticPaths = () => {
+  return {
+      paths: [
+        { params: { id: '1' } },
+        { params: { id: '2' } },
+        { params: { id: '3' } },
+      ],
+      fallback: true,
+  }
+}
+
 export default function Page({
 	book,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-	if (!book) {
-		return <div>책 정보를 불러올 수 없습니다.</div>;
-	}
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  const router = useRouter()
+  if (router.isFallback) return <div>로딩 중...</div>;
 
 	const { title, subTitle, author, publisher, description, coverImgUrl } = book;
 
