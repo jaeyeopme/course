@@ -1,4 +1,5 @@
 import type { InferGetStaticPropsType } from "next";
+import Head from "next/head";
 import type { ReactNode } from "react";
 import BookItem from "@/components/book-item";
 import SearchableLayout from "@/components/searchable-layout";
@@ -26,20 +27,30 @@ export default function Page({
 	recommendedBooks,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
 	return (
-		<div className={style.container}>
-			<section>
-				<h3>지금 추천하는 도서</h3>
-				{recommendedBooks.map((book: BookData) => (
-					<BookItem key={book.id} {...book} />
-				))}
-			</section>
-			<section>
-				<h3>등록된 모든 도서</h3>
-				{books.map((book: BookData) => (
-					<BookItem key={book.id} {...book} />
-				))}
-			</section>
-		</div>
+		<>
+			<Head>
+				<title>한입북스</title>
+				<meta property="og:title" content="한입북스 - 당신의 책을 찾아보세요" />
+				<meta
+					property="og:description"
+					content="한입북스는 다양한 도서를 추천하고, 당신이 원하는 책을 쉽게 찾을 수 있는 곳입니다."
+				/>
+			</Head>
+			<div className={style.container}>
+				<section>
+					<h3>지금 추천하는 도서</h3>
+					{recommendedBooks.map((book: BookData) => (
+						<BookItem key={book.id} {...book} />
+					))}
+				</section>
+				<section>
+					<h3>등록된 모든 도서</h3>
+					{books.map((book: BookData) => (
+						<BookItem key={book.id} {...book} />
+					))}
+				</section>
+			</div>
+		</>
 	);
 }
 
