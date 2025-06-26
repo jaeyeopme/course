@@ -1,7 +1,7 @@
 import type { BookData } from "@/types";
 
-export default async function fetchBooks(): Promise<BookData[]> {
-	const url = `http://localhost:12345/book`;
+export default async function fetchBooks(query?: string): Promise<BookData[]> {
+	const url = `http://localhost:12345/book${query ? `/search?q=${query}` : ""}`;
 
 	try {
 		const response = await fetch(url);
