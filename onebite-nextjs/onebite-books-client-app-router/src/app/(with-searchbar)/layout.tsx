@@ -1,12 +1,11 @@
-export default function Layout({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) {
+import type { ReactNode } from "react";
+import Searchbar from "@/components/searchbar";
+
+export default function Layout({ children }: { children: ReactNode }) {
 	return (
-		<>
-			<h1>Search Layout</h1>
-			<div>{children}</div>
-		</>
+		<div>
+			<Searchbar />
+			{children}
+		</div>
 	);
 }
