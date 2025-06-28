@@ -1,5 +1,6 @@
 import { BookData } from "@/types";
 import style from "./page.module.css";
+import { notFound } from "next/navigation";
 
 export default async function Page({
 	params,
@@ -12,9 +13,7 @@ export default async function Page({
 		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${id}`,
 	);
 
-	if (!response.ok) {
-		return <div>에러가 발생했습니다</div>;
-	}
+	if (response.status === 404) notFound();
 
 	const {
 		title,
