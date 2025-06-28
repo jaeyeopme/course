@@ -1,5 +1,5 @@
+import { BookData } from "@/types";
 import style from "./page.module.css";
-import mock from "@/mock/books.json";
 
 export default async function Page({
 	params,
@@ -8,8 +8,22 @@ export default async function Page({
 }) {
 	const { id } = await params;
 
-	const { title, subTitle, description, author, publisher, coverImgUrl } =
-		mock[0];
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${id}`,
+	);
+
+	if (!response.ok) {
+		return <div>에러가 발생했습니다</div>;
+	}
+
+	const {
+		title,
+		subTitle,
+		description,
+		author,
+		publisher,
+		coverImgUrl,
+	}: BookData = await response.json();
 
 	return (
 		<div className={style.container}>
