@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import BookItem from "@/components/book-item";
+import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
 import type { BookData } from "@/types";
 import { delay } from "@/util/delay";
 import style from "./page.module.css";
@@ -56,13 +57,13 @@ export default async function Page() {
 		<div className={style.container}>
 			<section>
 				<h3>지금 추천하는 도서</h3>
-				<Suspense fallback={<div>추천 도서 불러오는 중...</div>}>
+				<Suspense fallback={<BookListSkeleton count={3} />}>
 					<RecommendedBooks />
 				</Suspense>
 			</section>
 			<section>
 				<h3>등록된 모든 도서</h3>
-				<Suspense fallback={<div>전체 도서 불러오는 중...</div>}>
+				<Suspense fallback={<BookListSkeleton count={3} />}>
 					<AllBooks />
 				</Suspense>
 			</section>

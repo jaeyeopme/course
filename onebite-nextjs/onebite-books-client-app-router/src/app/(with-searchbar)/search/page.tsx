@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import BookItem from "@/components/book-item";
+import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
 import type { BookData } from "@/types";
 import { delay } from "@/util/delay";
-import Loading from "./loading";
 
 async function SearchBooks({ query }: { query: string }) {
 	await delay(1500);
@@ -35,7 +35,7 @@ export default async function Page({
 
 	return (
 		// key prop 이 변경될 때 마다 로딩 상태 초기화
-		<Suspense key={query} fallback={<Loading />}>
+		<Suspense key={query} fallback={<BookListSkeleton count={3} />}>
 			<SearchBooks query={query || ""} />
 		</Suspense>
 	);
