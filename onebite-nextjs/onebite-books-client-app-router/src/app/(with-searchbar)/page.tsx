@@ -2,14 +2,9 @@ import { Suspense } from "react";
 import BookItem from "@/components/book-item";
 import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
 import type { BookData } from "@/types";
-import { delay } from "@/util/delay";
 import style from "./page.module.css";
 
-// 실습을 위해 AllBooks 의 데이터 페칭을 force-dynamic 으로 설정
-export const dynamic = "force-dynamic";
-
 async function RecommendedBooks() {
-	await delay(3000);
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/random`,
 		{ next: { revalidate: 3 } },
@@ -31,7 +26,6 @@ async function RecommendedBooks() {
 }
 
 async function AllBooks() {
-	await delay(1500);
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
 		{ cache: "force-cache" },
