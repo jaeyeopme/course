@@ -1,15 +1,13 @@
+import { Suspense } from "react";
 import BookItem from "@/components/book-item";
 import type { BookData } from "@/types";
+import { delay } from "@/util/delay";
+import Loading from "./loading";
 
-export default async function Page({
-	searchParams,
-}: {
-	searchParams: Promise<{ query?: string }>;
-}) {
-	const { query } = await searchParams;
-
+async function SearchBooks({ query }: { query: string }) {
+	await delay(1500);
 	const response = await fetch(
-		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/search?q=${query || ""}`,
+		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/search?q=${query}`,
 		{ cache: "force-cache" },
 	);
 
@@ -25,5 +23,20 @@ export default async function Page({
 				<BookItem key={book.id} {...book} />
 			))}
 		</div>
+	);
+}
+
+export default async function Page({
+	searchParams,
+}: {
+	searchParams: Promise<{ query?: string }>;
+}) {
+	const { query } = await searchParams;
+
+	return (
+		// key prop 이 변경될 때 마다 로딩 상태 초기화
+		<Suspense key={query} fallback={<Loading />}>
+			<SearchBooks query={query || ""} />
+		</Suspense>
 	);
 }
