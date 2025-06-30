@@ -2,12 +2,14 @@
 
 import { revalidateTag } from "next/cache";
 
-export async function createReviewAction(formData: FormData) {
+export async function createReviewAction(_: unknown, formData: FormData) {
 	const bookId = formData.get("bookId");
 	const content = formData.get("content");
 	const author = formData.get("author");
 
-	if (!bookId || !content || !author) return;
+	if (!bookId || !content || !author) {
+		return { ok: false, error: "작성자와 리뷰 내용을 입력해주세요" };
+	}
 
 	try {
 		const response = await fetch(
@@ -23,12 +25,14 @@ export async function createReviewAction(formData: FormData) {
 		);
 
 		if (!response.ok) {
-			throw new Error("리뷰 작성에 실패했습니다.");
+			throw new Error(response.statusText);
 		}
 
 		revalidateTag(`review-${bookId}`);
+
+		return { ok: true, error: null };
 	} catch (error) {
 		console.error("리뷰 작성 중 에러 발생:", error);
-		return;
+		return { ok: false, error: "리뷰 작성에 실패했습니다." };
 	}
 }
