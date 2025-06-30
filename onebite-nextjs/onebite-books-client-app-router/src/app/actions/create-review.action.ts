@@ -33,6 +33,6 @@ export async function createReviewAction(_: unknown, formData: FormData) {
 		return { ok: true, error: null };
 	} catch (error) {
 		console.error("리뷰 작성 중 에러 발생:", error);
-		return { ok: false, error: "리뷰 작성에 실패했습니다." };
+		return { ok: false, error: "리뷰 작성에 실패했습니다" };
 	}
 }

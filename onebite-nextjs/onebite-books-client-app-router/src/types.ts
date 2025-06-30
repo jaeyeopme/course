@@ -1,5 +1,5 @@
 export interface BookData {
-	id: number;
+	id: string;
 	title: string;
 	subTitle: string;
 	description: string;
@@ -9,7 +9,7 @@ export interface BookData {
 }
 
 export interface ReviewData {
-	id: number;
+	id: string;
 	content: string;
 	author: string;
 	createdAt: string;

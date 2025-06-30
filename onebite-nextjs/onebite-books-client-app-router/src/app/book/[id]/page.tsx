@@ -1,4 +1,4 @@
-import { BookData, ReviewData } from "@/types";
+import type { BookData, ReviewData } from "@/types";
 import style from "./page.module.css";
 import ReviewItem from "@/components/review-item";
 import ReviewEditor from "@/components/review-editor";
