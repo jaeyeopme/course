@@ -1,14 +1,20 @@
-import { BookData } from "@/types";
+import { BookData, ReviewData } from "@/types";
 import style from "./page.module.css";
+import ReviewItem from "@/components/review-item";
+import ReviewEditor from "@/components/review-editor";
 import { notFound } from "next/navigation";
-import { createReviewAction } from "@/app/actions/create-review.action";
 
 async function BookDetail({ bookId }: { bookId: string }) {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${bookId}`,
 	);
 
-	if (response.status === 404) notFound();
+	if (!response.ok) {
+		if (response.status === 404) {
+			notFound();
+		}
+		throw new Error("Fetching book failed");
+	}
 
 	const {
 		title,
@@ -37,15 +43,25 @@ async function BookDetail({ bookId }: { bookId: string }) {
 	);
 }
 
-function ReviewEditor({ bookId }: { bookId: string }) {
+async function ReviewList({ bookId }: { bookId: string }) {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/book/${bookId}`,
+	);
+
+	if (!response.ok) {
+		if (response.status === 404) {
+			notFound();
+		}
+		throw new Error("Fetching reviews failed");
+	}
+
+	const reviews: ReviewData[] = await response.json();
+
 	return (
 		<section>
-			<form action={createReviewAction}>
-				<input type="hidden" name="bookId" value={bookId} />
-				<input required name="content" placeholder="리뷰내용" />
-				<input required name="author" placeholder="작성자" />
-				<button type="submit">작성하기</button>
-			</form>
+			{reviews.map((review) => (
+				<ReviewItem key={review.id} {...review} />
+			))}
 		</section>
 	);
 }
@@ -61,6 +77,7 @@ export default async function Page({
 		<div className={style.container}>
 			<BookDetail bookId={id} />
 			<ReviewEditor bookId={id} />
+			<ReviewList bookId={id} />
 		</div>
 	);
 }
