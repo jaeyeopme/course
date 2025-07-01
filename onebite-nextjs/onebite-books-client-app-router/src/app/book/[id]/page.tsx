@@ -5,7 +5,7 @@ import ReviewEditor from "@/components/review-editor";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
-async function BookDetail({ bookId }: { bookId: string }) {
+async function fetchBook({ bookId }: { bookId: string }): Promise<BookData> {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${bookId}`,
 	);
@@ -17,14 +17,34 @@ async function BookDetail({ bookId }: { bookId: string }) {
 		throw new Error("Fetching book failed");
 	}
 
-	const {
-		title,
-		subTitle,
-		description,
-		author,
-		publisher,
-		coverImgUrl,
-	}: BookData = await response.json();
+	return await response.json();
+}
+
+async function fetchReviews({
+	bookId,
+}: { bookId: string }): Promise<ReviewData[]> {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/book/${bookId}`,
+		{
+			next: {
+				tags: [`review-${bookId}`],
+			},
+		},
+	);
+
+	if (!response.ok) {
+		if (response.status === 404) {
+			notFound();
+		}
+		throw new Error("Fetching reviews failed");
+	}
+
+	return await response.json();
+}
+
+async function BookDetail({ bookId }: { bookId: string }) {
+	const { title, subTitle, description, author, publisher, coverImgUrl } =
+		await fetchBook({ bookId });
 
 	return (
 		<section>
@@ -45,23 +65,7 @@ async function BookDetail({ bookId }: { bookId: string }) {
 }
 
 async function ReviewList({ bookId }: { bookId: string }) {
-	const response = await fetch(
-		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/book/${bookId}`,
-		{
-			next: {
-				tags: [`review-${bookId}`],
-			},
-		},
-	);
-
-	if (!response.ok) {
-		if (response.status === 404) {
-			notFound();
-		}
-		throw new Error("Fetching reviews failed");
-	}
-
-	const reviews: ReviewData[] = await response.json();
+	const reviews = await fetchReviews({ bookId });
 
 	return (
 		<section>
@@ -70,6 +74,28 @@ async function ReviewList({ bookId }: { bookId: string }) {
 			))}
 		</section>
 	);
+}
+
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ id: string }>;
+}) {
+	const { id: bookId } = await params;
+
+	const { title, description, coverImgUrl }: BookData = await fetchBook({
+		bookId,
+	});
+
+	return {
+		title: `${title} - 한입 북스`,
+		description: `${description}`,
+		openGraph: {
+			title: `${title} - 한입 북스`,
+			description: `${description}`,
+			images: [coverImgUrl],
+		},
+	};
 }
 
 export default async function Page({

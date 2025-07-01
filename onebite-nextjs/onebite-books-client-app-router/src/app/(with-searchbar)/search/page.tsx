@@ -24,6 +24,20 @@ async function SearchBooks({ query }: { query: string }) {
 	);
 }
 
+export async function generateMetadata({
+	searchParams,
+}: {
+	searchParams: Promise<{ query?: string }>;
+}) {
+	const { query } = await searchParams;
+
+	return {
+		title: query,
+		description: `"${query}"에 대한 검색 결과입니다`,
+		images: ["/thumbnail.png"],
+	};
+}
+
 export default async function Page({
 	searchParams,
 }: {
