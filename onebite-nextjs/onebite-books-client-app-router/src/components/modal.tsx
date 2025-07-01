@@ -12,7 +12,6 @@ export default function Modal({ children }: { children: ReactNode }) {
 	useEffect(() => {
 		if (dialogRef.current && !dialogRef.current.open) {
 			dialogRef.current.showModal();
-			dialogRef.current.scrollTo({ top: 0 });
 		}
 	}, []);
 
