@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import BookItem from "@/components/book-item";
-import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
 import type { BookData } from "@/types";
 import style from "./page.module.css";
 
@@ -62,15 +60,11 @@ export default async function Page() {
 		<div className={style.container}>
 			<section>
 				<h3>지금 추천하는 도서</h3>
-				<Suspense fallback={<BookListSkeleton count={3} />}>
-					<RecommendedBooks />
-				</Suspense>
+				<RecommendedBooks />
 			</section>
 			<section>
 				<h3>등록된 모든 도서</h3>
-				<Suspense fallback={<BookListSkeleton count={3} />}>
-					<AllBooks />
-				</Suspense>
+				<AllBooks />
 			</section>
 		</div>
 	);

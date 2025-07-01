@@ -5,9 +5,27 @@ import ReviewEditor from "@/components/review-editor";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
+export async function generateStaticParams() {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
+	);
+
+	if (!response.ok) {
+		if (response.status === 404) {
+			notFound();
+		}
+		throw new Error("Fetching reviews failed");
+	}
+
+	const books: BookData[] = await response.json();
+
+	return books.map((book) => ({ id: book.id.toString() }));
+}
+
 async function fetchBook({ bookId }: { bookId: string }): Promise<BookData> {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${bookId}`,
+		{ cache: "force-cache" },
 	);
 
 	if (!response.ok) {
