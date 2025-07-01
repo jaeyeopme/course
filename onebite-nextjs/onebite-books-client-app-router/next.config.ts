@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
 			fullUrl: true, // 모든 fetch 요청의 전체 URL을 로깅
 		},
 	},
+	images: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "shopping-phinf.pstatic.net",
+				pathname: "/**",
+			},
+		],
+	},
 };
 
 export default nextConfig;

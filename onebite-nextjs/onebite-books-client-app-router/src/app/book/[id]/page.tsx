@@ -3,6 +3,7 @@ import style from "./page.module.css";
 import ReviewItem from "@/components/review-item";
 import ReviewEditor from "@/components/review-editor";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 async function BookDetail({ bookId }: { bookId: string }) {
 	const response = await fetch(
@@ -31,7 +32,7 @@ async function BookDetail({ bookId }: { bookId: string }) {
 				className={style.cover_img_container}
 				style={{ backgroundImage: `url('${coverImgUrl}')` }}
 			>
-				<img src={coverImgUrl} alt={title} />
+				<Image src={coverImgUrl} width={240} height={300} alt={title} />
 			</div>
 			<div className={style.title}>{title}</div>
 			<div className={style.subTitle}>{subTitle}</div>
