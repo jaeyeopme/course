@@ -17,6 +17,7 @@ export default function RootLayout({
 					<main>{children}</main>
 					<footer>@2025 ONEBITE BOOKS. All rights reserved.</footer>
 				</div>
+				<div id="modal-root"></div>
 			</body>
 		</html>
 	);
