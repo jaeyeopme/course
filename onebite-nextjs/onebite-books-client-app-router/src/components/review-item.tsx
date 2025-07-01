@@ -7,6 +7,7 @@ export default function ReviewItem({
 	content,
 	author,
 	createdAt,
+	bookId,
 }: ReviewData) {
 	return (
 		<div className={style.container}>
@@ -18,7 +19,7 @@ export default function ReviewItem({
 					{new Date(createdAt).toLocaleString("ko")}
 				</div>
 				<div className={style.delete_btn}>
-					<ReviewDeleteButton reviewId={id} />
+					<ReviewDeleteButton reviewId={id} bookId={bookId} />
 				</div>
 			</div>
 		</div>
